@@ -11,6 +11,9 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 def login():
     pass
 
+@bp.route('/register')
+def register():
+    pass
 
 @bp.route('/mail/test', methods=["POST"])
 def mail_test():
@@ -22,14 +25,14 @@ def mail_test():
     is_check = check_email(data_email)
     print(is_check)
     if is_check == 'false':
-        return {'msg': '邮箱填写有误，请重新填写'}
+        return {'code': 200, 'msg': '邮箱填写有误，请重新填写'}
     else:
         source = string.digits * 10
         captcha = random.sample(source, 4)
         captcha = "".join(captcha)
         message = Message(subject='验证码', recipients=[data_email], body=f"您的验证码是:{captcha}")
         mail.send(message)
-        return '邮件发送成功'
+        return {'code': 200, 'msg': '邮箱发送成功'}
 
 
 # 检测email是否合规
